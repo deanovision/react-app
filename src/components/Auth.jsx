@@ -9,8 +9,11 @@ const Auth = ({ history }) => {
     axios
       .get(`http://localhost:5000/get_token?${window.location.search}`)
       .then(res => {
+        console.log(res.data);
         localStorage.setItem("bc_access_token", res.data.access_token);
+        localStorage.setItem("company_id", res.data.company_id);
       })
+
       .then(() => {
         history.push("/dashboard");
       })
