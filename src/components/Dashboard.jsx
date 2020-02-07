@@ -6,7 +6,7 @@ const Dashboard = () => {
   useEffect(() => {
     console.log("Dashboard useEffect");
     axios
-      .post(`http://localhost:5000/get_profile`, {
+      .post(`${process.env.REACT_APP_API_URL}/get_profile`, {
         company_id: localStorage.getItem("company_id"),
         token: localStorage.getItem("bc_access_token")
       })

@@ -13,7 +13,7 @@ const ProjectList = () => {
   const profile_id = localStorage.getItem("profile_id");
   useEffect(() => {
     axios
-      .post("http://localhost:5000/get_projects", {
+      .post(`${process.env.REACT_APP_API_URL}/get_projects`, {
         token: token,
         company_id: company_id,
         profile_id: profile_id
@@ -40,7 +40,7 @@ const ProjectList = () => {
   };
   const getProject = project_id => {
     axios
-      .post("http://localhost:5000/get_project", {
+      .post(`${process.env.REACT_APP_API_URL}/get_project`, {
         token: token,
         company_id: company_id,
         profile_id: profile_id,

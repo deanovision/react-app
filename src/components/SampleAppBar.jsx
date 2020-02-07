@@ -41,7 +41,7 @@ export default function SampleAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Sample Ticket
+            APP
           </Typography>
           <Button color="inherit" onClick={startAuth}>
             Login
