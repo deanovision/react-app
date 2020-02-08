@@ -7,10 +7,15 @@ const Auth = ({ history }) => {
   useEffect(() => {
     console.log("Auth useEffect");
     axios
-      .get(`http://localhost:5000/get_token?${window.location.search}`)
+      .get(
+        `${process.env.REACT_APP_API_URL}/get_token?${window.location.search}`
+      )
       .then(res => {
+        console.log(res.data);
         localStorage.setItem("bc_access_token", res.data.access_token);
+        localStorage.setItem("company_id", res.data.company_id);
       })
+
       .then(() => {
         history.push("/dashboard");
       })
