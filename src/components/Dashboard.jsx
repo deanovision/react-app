@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import ProjectList from "./ProjectList";
 import axios from "axios";
 
-const Dashboard = () => {
+const Dashboard = ({ history }) => {
   useEffect(() => {
     console.log("Dashboard useEffect");
     axios
@@ -18,13 +18,13 @@ const Dashboard = () => {
   }, []);
   return (
     <div>
-      <h2>Dashboard</h2>
+      {/* <h2>Dashboard</h2>
       {localStorage.getItem("bc_access_token") ? (
         <p>Token Exists</p>
       ) : (
         <p>No Token Found</p>
-      )}
-      <ProjectList />
+      )} */}
+      <ProjectList history={history} />
     </div>
   );
 };

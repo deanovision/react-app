@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
+import TodoList from "./TodoList";
 import axios from "axios";
 
-const Project = ({ match }) => {
+const Project = ({ match, history }) => {
   const token = localStorage.getItem("bc_access_token");
   const company_id = localStorage.getItem("company_id");
   const profile_id = localStorage.getItem("profile_id");
   const [todolists, setTodolists] = useState([]);
 
   useEffect(() => {
+    // console.log("state", history.location.state);
+    console.log("Project useEffect");
     axios
       .post(`${process.env.REACT_APP_API_URL}/get_project`, {
         token: token,
@@ -20,13 +23,22 @@ const Project = ({ match }) => {
         setTodolists(res.data);
       })
       .catch(err => console.log(err));
-  }, []);
+  }, [company_id, profile_id, token, match.params.id]);
   return (
     <div>
-      <h2>Project {match.params.id}</h2>
+      <h2>{history.location.state.name}</h2>
       {todolists
         ? todolists.map(list => {
-            return <div key={list.id}>{list.name}</div>;
+            return (
+              <TodoList
+                key={list.id}
+                id={list.id}
+                name={list.name}
+                match={match}
+                todolist={list}
+                history={history}
+              />
+            );
           })
         : null}
     </div>

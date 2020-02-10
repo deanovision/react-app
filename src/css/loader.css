@@ -8,4 +8,11 @@
 .center-container {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
+}
+.search-container {
+  width: 400px;
+  overflow: hidden;
+  margin: 0 auto;
+  text-align: left;
 }

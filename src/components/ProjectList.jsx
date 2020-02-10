@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Loader from "react-loader-spinner";
-import ProjectCard from "./ProjectCard";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import "../css/loader.css";
 
-const ProjectList = () => {
+const ProjectList = ({ history }) => {
   const [projects, setProjects] = useState([]);
-  const [filteredProjects, setFilteredProjects] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const token = localStorage.getItem("bc_access_token");
   const company_id = localStorage.getItem("company_id");
   const profile_id = localStorage.getItem("profile_id");
@@ -23,67 +21,37 @@ const ProjectList = () => {
         setProjects(res.data);
       })
       .catch(err => console.log(err));
-  }, []);
-  const searchFilter = () => {
-    let filteredArr = [];
-    projects.map(project => {
-      return project.name.toLowerCase().includes(searchTerm.toLowerCase())
-        ? filteredArr.push(project)
-        : null;
+  }, [token, company_id, profile_id]);
+
+  const inputChangeHandler = (event, values) => {
+    let url;
+    console.log(event, values);
+    const projectId = projects.find(project => {
+      url = `/project/${project.id}`;
+      return project.name === values;
     });
-    setFilteredProjects(filteredArr);
+    return projectId ? history.push({ pathname: url, state: projectId }) : null;
   };
-  const onChangeHandler = e => {
-    setSearchTerm(e.target.value);
-    searchFilter();
-    console.log(searchTerm);
-  };
-  const getProject = project_id => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/get_project`, {
-        token: token,
-        company_id: company_id,
-        profile_id: profile_id,
-        project_id: project_id
-      })
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(err => console.log(err));
-  };
+
   return (
     <div>
-      <input name="search" onChange={onChangeHandler} type="text" />
-      {/* {filteredProjects.length > 0 ? (
-        filteredProjects.map(project => { */}
-      {projects.length > 0 ? (
-        projects.map(project => {
-          return (
-            <p
-              onClick={() =>
-                (window.location.href = `http://${window.location.host}/project/${project.id}`)
-              }
-              key={project.id}
-            >
-              {project.name}
-            </p>
-          );
-        })
-      ) : (
-        <>
-          <h2>Loading Projects</h2>
-          <div className="center-container">
-            <Loader
-              className="vertical-center"
-              type="Puff"
-              color="#3f51b5"
-              height={150}
-              width={150}
-              //timeout={6000} //6 secs
+      <div className="center-container">
+        <Autocomplete
+          id="combo-box-demo"
+          options={projects}
+          getOptionLabel={option => option.name}
+          onInputChange={inputChangeHandler}
+          style={{ width: 300, margin: "0 auto" }}
+          renderInput={params => (
+            <TextField
+              {...params}
+              label="Select Project"
+              variant="outlined"
+              fullWidth
             />
-          </div>
-        </>
-      )}
+          )}
+        />
+      </div>
     </div>
   );
 };
