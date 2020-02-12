@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import TodoModal from "./TodoModal";
 import axios from "axios";
 
-export default function TodoCard({ todo, history, project_id }) {
+export default function TodoComments({ todo, history, project_id }) {
   const [comments, setComments] = useState([]);
   const token = localStorage.getItem("bc_access_token");
   const company_id = localStorage.getItem("company_id");
@@ -37,11 +39,29 @@ export default function TodoCard({ todo, history, project_id }) {
             return (
               <div
                 key={comment.id}
-                dangerouslySetInnerHTML={createMarkup(comment.content)}
-              />
+                style={{ display: "flex", margin: "40px 0px" }}
+              >
+                <Avatar
+                  style={{ margin: "10px 25px 0px 0px" }}
+                  alt={comment.creator.name}
+                  src={comment.creator.avatar_url}
+                />
+                <div>
+                  <p>
+                    <strong>{comment.creator.name}</strong>
+                  </p>
+                  <div
+                    style={{ lineHeight: "1.75" }}
+                    key={comment.id}
+                    dangerouslySetInnerHTML={createMarkup(comment.content)}
+                  />
+                </div>
+              </div>
             );
           })
         : null}
+
+      <TodoModal todo={todo} project_id={project_id} />
     </div>
   );
 }

@@ -26,7 +26,9 @@ const Project = ({ match, history }) => {
   }, [company_id, profile_id, token, match.params.id]);
   return (
     <div>
-      <h2>{history.location.state.name}</h2>
+      <p>
+        <strong>{history.location.state.name}</strong>
+      </p>
       {todolists
         ? todolists.map(list => {
             return (

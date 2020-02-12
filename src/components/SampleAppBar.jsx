@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import ProjectList from "./ProjectList";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,7 +16,8 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
+    marginBottom: 10
   }
 }));
 
@@ -25,7 +27,7 @@ function startAuth() {
   window.location.href = authURL;
 }
 
-export default function SampleAppBar() {
+export default function SampleAppBar(props) {
   const classes = useStyles();
 
   return (
@@ -41,8 +43,9 @@ export default function SampleAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            APP
+            <ProjectList history={props.history} />
           </Typography>
+
           <Button color="inherit" onClick={startAuth}>
             Login
           </Button>

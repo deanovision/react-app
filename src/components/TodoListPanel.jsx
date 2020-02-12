@@ -5,7 +5,7 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import TodoCard from "./TodoCard";
+import TodoCard from "./TodoComments";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,14 +51,33 @@ export default function TodoListPanel({ todolist, history }) {
           {todolist.todos ? (
             todolist.todos.remaining.map(todo => {
               return (
-                <TodoCard
+                // <TodoCard
+                //   key={todo.id}
+                //   todo={todo}
+                //   project_id={history.location.state.id}
+                // onClick={() =>
+                //   history.push({
+                //     pathname: `/todos/${todo.id}`,
+                //     state: { todo, history }
+                //   })
+                // }
+                // />
+                <div
+                  style={{ display: "flex", alignItems: "center" }}
                   key={todo.id}
-                  todo={todo}
-                  project_id={history.location.state.id}
-                />
-                // <p className={classes.todo} key={todo.id}>
-                //   {todo.content}
-                // </p>
+                >
+                  <input type="checkbox" />
+                  <p
+                    onClick={() =>
+                      history.push({
+                        pathname: `/todos/${todo.id}`,
+                        state: { todo }
+                      })
+                    }
+                  >
+                    {todo.content}
+                  </p>
+                </div>
               );
             })
           ) : (

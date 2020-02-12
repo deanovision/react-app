@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ProjectList from "./ProjectList";
+import MyTodos from "./MyTodos";
 import axios from "axios";
 
 const Dashboard = ({ history }) => {
+  //This component will display the logged in users assigned todos
+  // and other pertinent information
+  const [profile, setProfile] = useState({});
   useEffect(() => {
     console.log("Dashboard useEffect");
     axios
@@ -12,19 +16,18 @@ const Dashboard = ({ history }) => {
       })
       .then(res => {
         console.log(res.data);
-        localStorage.setItem("profile_id", res.data.id);
+        setProfile(res.data.profile);
+        localStorage.setItem("profile_id", res.data.profile.id);
       })
       .catch(err => console.log(err));
   }, []);
   return (
     <div>
-      {/* <h2>Dashboard</h2>
-      {localStorage.getItem("bc_access_token") ? (
-        <p>Token Exists</p>
+      {profile.assigned_todos ? (
+        <MyTodos url={profile.assigned_todos.url} />
       ) : (
-        <p>No Token Found</p>
-      )} */}
-      <ProjectList history={history} />
+        <MyTodos />
+      )}
     </div>
   );
 };
